@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="M. Salmon, S. Vakacherla, C. Mila, J. Marshall, C. Tonne" />
+
+<meta name="date" content="2017-08-02" />
+
+<title>MicroPEM data Cleaning process developed through the CHAI project</title>
+
+
+
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">MicroPEM data Cleaning process developed through the CHAI project</h1>
+<h4 class="author"><em>M. Salmon, S. Vakacherla, C. Mila, J. Marshall, C. Tonne</em></h4>
+<h4 class="date"><em>2017-08-02</em></h4>
+
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Continuous personal monitoring of PM2.5 in the <a href="http://www.chaiproject.org/">CHAI project</a> resulted in 261 MicroPEM files corresponding to 250 measurements sessions of 24 hours. Data were collected using 5 distinct MicroPEMs. Since there is no central RTI MicroPEM documentation nor agreed-on harmonized data cleaning process, we developed this framework. In the literature, details about data cleaning were too scarce to allow reproducibility. In this document we explain the issues we encountered, we present the framework we used for data cleaning, and provide some details about our code.</p>
+<p>Brief overview of issues encountered in MicroPEM data:</p>
+<ul>
+<li><p>Temperature sensitivity (zero decreasing with increasing temperature), apparently random baseline shifts.</p></li>
+<li><p>Negative relative humidity for a few points, leading to aberrant rh-corrected nephelometer values.</p></li>
+<li><p>Strange variations of internal parameters such as flow or orifice pressure, indicating the flow was not constant. For one MicroPEM that finally broke, the inlet pressure of some files indicated the device had been sucking air from the device instead of air from the environment.</p></li>
+<li><p>The internal flowmeter was not always reliable. Sometimes it wasn’t logging at all, sometimes it was logging 0.15 instead of 0.5. Because of the unreliable performance form the internal flowmeter, data from an external flowmeter pre and post-sampling is very valuable.</p></li>
+<li><p>There were holes in some filters for gravimetric measurements. Filter weights were also very variable and sometimes unrealistic (extremely high or small). We hypothesized that some filters might have contained small holes not visible to the eye. Therefore, we did not use MicroPEM filters for gravimetric correction in our study. Instead, we used colocated gravimetric measurements using an SKC pump fitted with BGI cyclone.</p></li>
+</ul>
+</div>
+<div id="definition-of-the-data-cleaning-framework" class="section level1">
+<h1>Definition of the data cleaning framework</h1>
+<div id="removal-of-entire-files." class="section level2">
+<h2>Removal of entire files.</h2>
+<p>Files were removed from the analysis if</p>
+<ul>
+<li><p>the post-sampling flow rate as measured by an external flowmeter was either 1) non available 2) higher than 120% of the pre-sampling flow rate.</p></li>
+<li><p>there were too few, e.g. 0 or 10, measures in total. Such files actually indicated a MicroPEM failure.</p></li>
+<li><p>Relative humidity was not logged at all, which happened to one of our files, since relative humidity is used to correct nephelometer vales</p></li>
+<li><p>visual checks, for our MicroPEMs MP724 (which presented many negative values) and MP718 (which was later sent back to RTI because of malfunctions), defined the file as problematic. All visual checks were performed by at least two team members.</p>
+<ul>
+<li><p>For MP718 we eliminated files where inlet pressure was so low that it indicated the MicroPEM had been sucking air from inside the device.</p></li>
+<li><p>For MP724 we eliminated files with an abrupt baseline shift, or where inlet pressure wasn’t constantly increasing.</p></li>
+</ul></li>
+</ul>
+<p>The criterion on post-sampling flow rate led to the exclusion of 5 files from the analysis, the other criteria led in total to the exclusin of 28 files. Therefore our final table contains data from 228 files.</p>
+</div>
+<div id="correctionremoval-of-individual-data-points-in-time-series." class="section level2">
+<h2>Correction/removal of individual data points in time series.</h2>
+<ul>
+<li><p>Only values consistent with the start and stop time of monitoring as recorded on an external log sheet were retained: 1) in some cases there were measurements from a previous session in the file 2) when downloading data later on the same day sometimes by mistake the MicroPEM was turned on again and a few measures were produced.</p></li>
+<li><p>We detected nephelometer high outliers and removed them thanks to a custom function adapted from <code>forecast::tsoutlier</code>. We copy the function later in this vignette.</p></li>
+<li><p>Nephelometer values corresponding to negative relative humidity were set to missing.</p></li>
+<li><p>Nephelometer values corresponding to a internal flow or orifice pressure (orifice pressure is indicative of internal flow which is useful in cases where internal flow wasn’t logged properly) outside of the range between 0.9xmedian in the file and 1.1xmedian in the file were set to missing.</p></li>
+<li><p>We applied a temperature correction for 3 MicroPEMs where we had noticed a zero drift with increasing temperature. 4 MicroPEMs ran with a HEPA filter attached to zero the device: 2 were found to be temperature sensitive. For the MicroPEM that was already sent back to RTI because it was broken, MP718, we used a file where the MicroPEM had been sucking air from the inside of the device (which we know because inlet pressure was so low) over a range of temperatures to develop the temperature correction. A device-specific temperature correction was derived (zero_t = a + bxtemperature) from the reference datasets and then applied to all files from each of these three MicroPEMs. For information here are the coefficients we get for the three MicroPEMs.</p>
+<ul>
+<li><p>MicroPEM 718 temperature sensitivity from 36ºC. a=27.573813, b=-1.074154</p></li>
+<li><p>MicroPEM 724 temperature sensitivity from 35ºC. a=67.411151, b=-1.996988</p></li>
+<li><p>MicroPEM 813 temperature sensitivity from 36ºC. a=33.6162432, b=-0.9616226</p></li>
+</ul></li>
+</ul>
+</div>
+<div id="identification-of-negative-baseline-shifts" class="section level2">
+<h2>Identification of negative baseline shifts</h2>
+<p>We identified baseline shifts based on the following:</p>
+<ul>
+<li><p>Changes in values measured with a HEPA filter attached to inleft immediately pre and post sampling in the field. We observed changes in zero over time (e.g. if zeroed a few hours before sampling) and during sampling. Zero drift could be positive or negative, with no relation to other parameters e.g. temperature.</p></li>
+<li><p>Files with a high proportion of negative nephelometer values. We identified files with a negative baseline shift as those where the mean was changed by more than 5% if holding off negative values. The criterion was met by 31 files.</p></li>
+</ul>
+<p>Files identified as having negative baseline shift were corrected as follows: add the opposite of the minimum to all values so that the minimum is zero.</p>
+</div>
+<div id="gravimetric-correction" class="section level2">
+<h2>Gravimetric correction</h2>
+<p>For calculating coefficients for gravimetic correction we used 53 MicroPEM files which 1) had been colocated with SKC pumps and 2) had no detected negative baseline shift. We made a linear regression of SKC gravimetric mean concentration vs. nephelometer mean concentration (with all previous corrections) and used the resulting coefficients to correct all MicroPEM files. The obtained correction was corrected = 21.3996 + 0.4658 x nephelometer. We did not have enough files from colocation to have a specific device / season correction.</p>
+<p>Note that in our final table we kept</p>
+<ul>
+<li><p>the “RH corrected nephelometer” values as provided by MicroPEMs.</p></li>
+<li><p>the values having received all corrections except the one for negative baseline shifts.</p></li>
+<li><p>the values having received all corrections.</p></li>
+</ul>
+</div>
+</div>
+<div id="technical-details-about-r-implementation-of-the-data-cleaning-framework" class="section level1">
+<h1>Technical details about R implementation of the data cleaning framework</h1>
+<p>We cannot share our code but provide some details.</p>
+<p>The first step of the data cleaning was to transform all MicroPEM files into two <code>data.frames</code> using <code>rtimicropem::batch_convert()</code>. Since in our study the filename was informative (it contained participant ID, date, etc.) we parsed the filenames using our internal package. The table with settings was joined with information from the logsheet such as pre and post-sampling flow rate.</p>
+<p>Then we created a <code>sqlite</code> database with the measurements, in which the filename was an index.</p>
+<p>Because of the huge number of files we had to process, we defined functions operating on participant-days/files, and used <a href="https://github.com/mllg/batchtools"><code>batchtools</code></a> to parallelize the process.</p>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>We hope that this vignette provided an useful insight into MicroPEM data cleaning. It probably does not cover all possible MicroPEM issues, and each project will not experience all issues. If you have any question or want to start a discussion please <a href="https://github.com/maelle/rtimicropem/issues/new">open a Github issue</a> or contact the maintainer of the package via maelle dot salmon at yahoo dot se.</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
