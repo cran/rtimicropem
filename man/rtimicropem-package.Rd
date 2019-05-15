@@ -12,8 +12,9 @@ in a reproducible way.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{http://github.com/ropensci/rtimicropem}
-  \item Report bugs at \url{http://github.com/ropensci/rtimicropem/issues}
+  \item \url{https://github.com/ropensci/rtimicropem}
+  \item \url{https://docs.ropensci.org/rtimicropem/}
+  \item Report bugs at \url{https://github.com/ropensci/rtimicropem/issues}
 }
 
 }
@@ -32,8 +33,8 @@ Other contributors:
   \item Sreekanth Vakacherla [contributor]
   \item Cathryn Tonne [contributor]
   \item Julian Marshall [contributor]
-  \item Lucy D'Agostino McGowan (Lucy D'Agostino McGowan reviewed the package for rOpenSci, see https://github.com/ropensci/onboarding/issues/126) [NA]
-  \item Kara  Woo (Kara Woo reviewed the package for rOpenSci, see https://github.com/ropensci/onboarding/issues/126) [NA]
+  \item Lucy D'Agostino McGowan (Lucy D'Agostino McGowan reviewed the package for rOpenSci, see https://github.com/ropensci/onboarding/issues/126) [reviewer]
+  \item Kara  Woo (Kara Woo reviewed the package for rOpenSci, see https://github.com/ropensci/onboarding/issues/126) [reviewer]
 }
 
 }
